@@ -1,0 +1,190 @@
+{
+  "restaurant": {
+    "name": "Bistro Aurora",
+    "taglineFi": "Moderni lounas- ja noutoravintola kampusalueella",
+    "taglineEn": "A modern lunch and pickup restaurant concept for a campus area",
+    "address": "Esimerkkikatu 12, 00100 Helsinki",
+    "openingHours": [
+      "Ma–Pe 10:30–18:00",
+      "La 12:00–17:00",
+      "Su suljettu"
+    ]
+  },
+  "announcements": [
+    {
+      "titleFi": "Lounas tarjolla klo 10:30–14:00",
+      "titleEn": "Lunch served from 10:30 to 14:00"
+    },
+    {
+      "titleFi": "Noutotilausten arvioitu valmistumisaika 15 min",
+      "titleEn": "Estimated pickup preparation time is 15 minutes"
+    }
+  ],
+  "weeklyMenus": [
+    {
+      "dayKey": "monday",
+      "dayNameFi": "Maanantai",
+      "dayNameEn": "Monday",
+      "items": [
+        {
+          "nameFi": "Paahdettu tomaattikeitto ja focaccia",
+          "nameEn": "Roasted tomato soup with focaccia",
+          "price": 11.5,
+          "dietaryTags": ["L", "G*"],
+          "descriptionFi": "Sisältää salaatin ja kahvin.",
+          "descriptionEn": "Includes salad and coffee."
+        },
+        {
+          "nameFi": "Kana-caesarsalaatti",
+          "nameEn": "Chicken Caesar salad",
+          "price": 12.9,
+          "dietaryTags": ["L"],
+          "descriptionFi": "Saatavilla myös kasvisversiona.",
+          "descriptionEn": "Vegetarian version available."
+        }
+      ]
+    },
+    {
+      "dayKey": "tuesday",
+      "dayNameFi": "Tiistai",
+      "dayNameEn": "Tuesday",
+      "items": [
+        {
+          "nameFi": "Lohipasta sitruunakermalla",
+          "nameEn": "Salmon pasta with lemon cream",
+          "price": 13.9,
+          "dietaryTags": ["L"],
+          "descriptionFi": "Päivän suosikki noutoon ja paikan päälle.",
+          "descriptionEn": "A daily favorite for pickup and dine-in."
+        },
+        {
+          "nameFi": "Falafelbowl ja tahinikastike",
+          "nameEn": "Falafel bowl with tahini dressing",
+          "price": 12.4,
+          "dietaryTags": ["VE", "M"],
+          "descriptionFi": "Runsaasti kasviksia ja marinoitua punasipulia.",
+          "descriptionEn": "Packed with vegetables and pickled red onion."
+        }
+      ]
+    },
+    {
+      "dayKey": "wednesday",
+      "dayNameFi": "Keskiviikko",
+      "dayNameEn": "Wednesday",
+      "items": [
+        {
+          "nameFi": "Naudan brisket, perunapyree ja paahdetut juurekset",
+          "nameEn": "Beef brisket, mashed potatoes and roasted roots",
+          "price": 14.9,
+          "dietaryTags": ["G"],
+          "descriptionFi": "Merkitty päivän erikoiseksi korostusta varten.",
+          "descriptionEn": "Marked as a special of the day for highlighting."
+        },
+        {
+          "nameFi": "Punajuuririsotto vuohenjuustolla",
+          "nameEn": "Beetroot risotto with goat cheese",
+          "price": 13.2,
+          "dietaryTags": ["VL", "G"],
+          "descriptionFi": "Saatavilla ilman juustoa vegaanisena.",
+          "descriptionEn": "Available vegan without cheese."
+        }
+      ]
+    },
+    {
+      "dayKey": "thursday",
+      "dayNameFi": "Torstai",
+      "dayNameEn": "Thursday",
+      "items": [
+        {
+          "nameFi": "Hernekeitto ja pannukakku",
+          "nameEn": "Pea soup and pancake",
+          "price": 10.9,
+          "dietaryTags": ["L"],
+          "descriptionFi": "Klassikko, jossa lisänä hillo ja kermavaahto.",
+          "descriptionEn": "A classic served with jam and whipped cream."
+        },
+        {
+          "nameFi": "Tofuwokki seesamilla",
+          "nameEn": "Sesame tofu wok",
+          "price": 12.7,
+          "dietaryTags": ["VE"],
+          "descriptionFi": "Keskitulinen annos noutoon ja lounaalle.",
+          "descriptionEn": "Medium spicy dish for pickup and lunch."
+        }
+      ]
+    },
+    {
+      "dayKey": "friday",
+      "dayNameFi": "Perjantai",
+      "dayNameEn": "Friday",
+      "items": [
+        {
+          "nameFi": "Burgerperjantai: smash burger ja lohkoperunat",
+          "nameEn": "Burger Friday: smash burger and wedges",
+          "price": 14.5,
+          "dietaryTags": ["L"],
+          "descriptionFi": "Saatavilla myös gluteenittomalla sämpylällä.",
+          "descriptionEn": "Also available with a gluten-free bun."
+        },
+        {
+          "nameFi": "Halloumiburger ja chili-majoneesi",
+          "nameEn": "Halloumi burger with chili mayo",
+          "price": 13.8,
+          "dietaryTags": ["VL"],
+          "descriptionFi": "Kasvisvaihtoehto viikonlopun alkuun.",
+          "descriptionEn": "A vegetarian choice to start the weekend."
+        }
+      ]
+    }
+  ],
+  "cartTemplate": {
+    "pickupWindow": "Tänään 16:30–16:45",
+    "items": [
+      {
+        "nameFi": "Falafelbowl",
+        "nameEn": "Falafel bowl",
+        "quantity": 1,
+        "price": 12.4
+      },
+      {
+        "nameFi": "Kana-caesarsalaatti",
+        "nameEn": "Chicken Caesar salad",
+        "quantity": 2,
+        "price": 12.9
+      }
+    ]
+  },
+  "adminTemplate": {
+    "sampleOrders": [
+      {
+        "id": "ORD-101",
+        "customer": "Aino",
+        "statusFi": "Valmistuksessa",
+        "statusEn": "In preparation",
+        "pickup": "11:45"
+      },
+      {
+        "id": "ORD-102",
+        "customer": "Mikael",
+        "statusFi": "Valmis noudettavaksi",
+        "statusEn": "Ready for pickup",
+        "pickup": "12:10"
+      },
+      {
+        "id": "ORD-103",
+        "customer": "Sara",
+        "statusFi": "Toimitettu",
+        "statusEn": "Completed",
+        "pickup": "12:30"
+      }
+    ]
+  },
+  "transportPlaceholder": {
+    "provider": "HSL Route API / Digitransit",
+    "nearestStop": "Rautatientori (template)",
+    "walkMinutes": 6,
+    "noteFi": "Korvaa tämä data HSL:n avoimesta API:sta haetulla lähimmän pysäkin, kävelyajan tai reittisuosituksen tiedolla.",
+    "noteEn": "Replace this with nearest stop, walking time or routing data from HSL open APIs."
+  }
+}
+
