@@ -24,5 +24,24 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4",
     "webpack-merge": "^5.10.0"
+  },
+  "main": "db.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rulettaja/webproject.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rulettaja/webproject/issues"
+  },
+  "homepage": "https://github.com/rulettaja/webproject#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mysql2": "^3.20.0"
   }
 }
