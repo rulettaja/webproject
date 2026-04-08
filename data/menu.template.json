@@ -1,23 +1,24 @@
 {
   "restaurant": {
-    "name": "Bistro Aurora",
-    "taglineFi": "Moderni lounas- ja noutoravintola kampusalueella",
-    "taglineEn": "A modern lunch and pickup restaurant concept for a campus area",
-    "address": "Esimerkkikatu 12, 00100 Helsinki",
+    "name": "Kallion Kulma",
+    "taglineFi": "Korttelibaari, livemusiikkia ja viikon juomatarjoukset.",
+    "taglineEn": "Neighborhood bar with live music and weekly drink specials.",
+    "address": "Kallionkatu 8, 00530 Helsinki",
     "openingHours": [
-      "Ma–Pe 10:30–18:00",
-      "La 12:00–17:00",
-      "Su suljettu"
+      "Ma-To 15:00-01:00",
+      "Pe 15:00-03:00",
+      "La 14:00-03:00",
+      "Su 16:00-00:00"
     ]
   },
   "announcements": [
     {
-      "titleFi": "Lounas tarjolla klo 10:30–14:00",
-      "titleEn": "Lunch served from 10:30 to 14:00"
+      "titleFi": "Happy Hour ma-pe klo 16-18",
+      "titleEn": "Happy Hour Mon-Fri 16:00-18:00"
     },
     {
-      "titleFi": "Noutotilausten arvioitu valmistumisaika 15 min",
-      "titleEn": "Estimated pickup preparation time is 15 minutes"
+      "titleFi": "Perjantaisin live-keikka klo 22:00",
+      "titleEn": "Live show every Friday at 22:00"
     }
   ],
   "weeklyMenus": [
@@ -27,20 +28,20 @@
       "dayNameEn": "Monday",
       "items": [
         {
-          "nameFi": "Paahdettu tomaattikeitto ja focaccia",
-          "nameEn": "Roasted tomato soup with focaccia",
-          "price": 11.5,
-          "dietaryTags": ["L", "G*"],
-          "descriptionFi": "Sisältää salaatin ja kahvin.",
-          "descriptionEn": "Includes salad and coffee."
+          "nameFi": "Kulman Lager 0,4 l",
+          "nameEn": "Corner Lager 0.4 l",
+          "price": 7.5,
+          "dietaryTags": ["DRAFT", "LOCAL"],
+          "descriptionFi": "Raikas talon hanaolut arki-iltaan.",
+          "descriptionEn": "Fresh house draft beer for an easy weekday evening."
         },
         {
-          "nameFi": "Kana-caesarsalaatti",
-          "nameEn": "Chicken Caesar salad",
-          "price": 12.9,
-          "dietaryTags": ["L"],
-          "descriptionFi": "Saatavilla myös kasvisversiona.",
-          "descriptionEn": "Vegetarian version available."
+          "nameFi": "Inkivaarilimonaadi",
+          "nameEn": "Ginger lemonade",
+          "price": 5.5,
+          "dietaryTags": ["NA"],
+          "descriptionFi": "Alkoholiton talon limu, tarjoillaan jailla.",
+          "descriptionEn": "House non-alcoholic lemonade served on ice."
         }
       ]
     },
@@ -50,20 +51,20 @@
       "dayNameEn": "Tuesday",
       "items": [
         {
-          "nameFi": "Lohipasta sitruunakermalla",
-          "nameEn": "Salmon pasta with lemon cream",
-          "price": 13.9,
-          "dietaryTags": ["L"],
-          "descriptionFi": "Päivän suosikki noutoon ja paikan päälle.",
-          "descriptionEn": "A daily favorite for pickup and dine-in."
+          "nameFi": "Espresso Martini",
+          "nameEn": "Espresso Martini",
+          "price": 11.0,
+          "dietaryTags": ["COCKTAIL"],
+          "descriptionFi": "Kahvinen klassikko iltaan.",
+          "descriptionEn": "A coffee-forward classic for the evening."
         },
         {
-          "nameFi": "Falafelbowl ja tahinikastike",
-          "nameEn": "Falafel bowl with tahini dressing",
-          "price": 12.4,
-          "dietaryTags": ["VE", "M"],
-          "descriptionFi": "Runsaasti kasviksia ja marinoitua punasipulia.",
-          "descriptionEn": "Packed with vegetables and pickled red onion."
+          "nameFi": "Sitruuna-inkivaari tonic",
+          "nameEn": "Lemon ginger tonic",
+          "price": 6.2,
+          "dietaryTags": ["NA"],
+          "descriptionFi": "Raikas alkoholiton vaihtoehto.",
+          "descriptionEn": "A crisp non-alcoholic option."
         }
       ]
     },
@@ -73,20 +74,20 @@
       "dayNameEn": "Wednesday",
       "items": [
         {
-          "nameFi": "Naudan brisket, perunapyree ja paahdetut juurekset",
-          "nameEn": "Beef brisket, mashed potatoes and roasted roots",
-          "price": 14.9,
-          "dietaryTags": ["G"],
-          "descriptionFi": "Merkitty päivän erikoiseksi korostusta varten.",
-          "descriptionEn": "Marked as a special of the day for highlighting."
+          "nameFi": "Kallio Sour",
+          "nameEn": "Kallio Sour",
+          "price": 12.0,
+          "dietaryTags": ["COCKTAIL", "SIGNATURE"],
+          "descriptionFi": "Talon signatuuricocktail marjaisella twistilla.",
+          "descriptionEn": "House signature cocktail with a berry twist."
         },
         {
-          "nameFi": "Punajuuririsotto vuohenjuustolla",
-          "nameEn": "Beetroot risotto with goat cheese",
-          "price": 13.2,
-          "dietaryTags": ["VL", "G"],
-          "descriptionFi": "Saatavilla ilman juustoa vegaanisena.",
-          "descriptionEn": "Available vegan without cheese."
+          "nameFi": "Kuuma omenaglögi",
+          "nameEn": "Hot apple mulled drink",
+          "price": 6.8,
+          "dietaryTags": ["HOT", "NA"],
+          "descriptionFi": "Lammittava alkoholiton sesonkijuoma.",
+          "descriptionEn": "A warming seasonal non-alcoholic drink."
         }
       ]
     },
@@ -96,20 +97,20 @@
       "dayNameEn": "Thursday",
       "items": [
         {
-          "nameFi": "Hernekeitto ja pannukakku",
-          "nameEn": "Pea soup and pancake",
-          "price": 10.9,
-          "dietaryTags": ["L"],
-          "descriptionFi": "Klassikko, jossa lisänä hillo ja kermavaahto.",
-          "descriptionEn": "A classic served with jam and whipped cream."
+          "nameFi": "IPA tasting flight",
+          "nameEn": "IPA tasting flight",
+          "price": 14.5,
+          "dietaryTags": ["DRAFT", "LOCAL"],
+          "descriptionFi": "Kolme pienta maisteluannosta lahituottajilta.",
+          "descriptionEn": "Three small pours from local breweries."
         },
         {
-          "nameFi": "Tofuwokki seesamilla",
-          "nameEn": "Sesame tofu wok",
-          "price": 12.7,
-          "dietaryTags": ["VE"],
-          "descriptionFi": "Keskitulinen annos noutoon ja lounaalle.",
-          "descriptionEn": "Medium spicy dish for pickup and lunch."
+          "nameFi": "Negroni",
+          "nameEn": "Negroni",
+          "price": 11.5,
+          "dietaryTags": ["COCKTAIL"],
+          "descriptionFi": "Katkera klassikko appelsiininkuorella.",
+          "descriptionEn": "A bitter classic with orange peel."
         }
       ]
     },
@@ -119,38 +120,70 @@
       "dayNameEn": "Friday",
       "items": [
         {
-          "nameFi": "Burgerperjantai: smash burger ja lohkoperunat",
-          "nameEn": "Burger Friday: smash burger and wedges",
-          "price": 14.5,
-          "dietaryTags": ["L"],
-          "descriptionFi": "Saatavilla myös gluteenittomalla sämpylällä.",
-          "descriptionEn": "Also available with a gluten-free bun."
+          "nameFi": "Kuohuviinilasillinen",
+          "nameEn": "Sparkling wine glass",
+          "price": 9.0,
+          "dietaryTags": ["SPECIAL"],
+          "descriptionFi": "Perjantain keikkailtaan tarjoushintaan.",
+          "descriptionEn": "Friday live-night special price."
         },
         {
-          "nameFi": "Halloumiburger ja chili-majoneesi",
-          "nameEn": "Halloumi burger with chili mayo",
-          "price": 13.8,
-          "dietaryTags": ["VL"],
-          "descriptionFi": "Kasvisvaihtoehto viikonlopun alkuun.",
-          "descriptionEn": "A vegetarian choice to start the weekend."
+          "nameFi": "Virgin Mojito",
+          "nameEn": "Virgin Mojito",
+          "price": 7.0,
+          "dietaryTags": ["NA"],
+          "descriptionFi": "Minttuinen alkoholiton suosikki.",
+          "descriptionEn": "A minty non-alcoholic favorite."
         }
       ]
     }
   ],
+  "performers": [
+    {
+      "name": "DJ Nala",
+      "genreFi": "DJ-setti",
+      "genreEn": "DJ set",
+      "dayFi": "Perjantai",
+      "dayEn": "Friday",
+      "time": "22:00-00:30",
+      "noteFi": "House, disco ja vanhat klassikot.",
+      "noteEn": "House, disco and old-school classics."
+    },
+    {
+      "name": "Miska & The Tramlines",
+      "genreFi": "Live-bandi",
+      "genreEn": "Live band",
+      "dayFi": "Lauantai",
+      "dayEn": "Saturday",
+      "time": "21:30-23:30",
+      "noteFi": "Indie-rockia ja suomipop-covereita.",
+      "noteEn": "Indie rock and Finnish pop covers."
+    },
+    {
+      "name": "Open Mic Kallio",
+      "genreFi": "Open mic",
+      "genreEn": "Open mic",
+      "dayFi": "Sunnuntai",
+      "dayEn": "Sunday",
+      "time": "19:00-21:00",
+      "noteFi": "Vapaa esiintymisilta laulajille ja stand upille.",
+      "noteEn": "Open stage for singers and stand-up performers."
+    }
+  ],
   "cartTemplate": {
-    "pickupWindow": "Tänään 16:30–16:45",
+    "pickupWindow": "Tanaan 19:15-19:30",
     "items": [
       {
-        "nameFi": "Falafelbowl",
-        "nameEn": "Falafel bowl",
+        "nameFi": "Kallio Sour",
+        "nameEn": "Kallio Sour",
         "quantity": 1,
-        "price": 12.4
+        "price": 12.0
       },
       {
-        "nameFi": "Kana-caesarsalaatti",
-        "nameEn": "Chicken Caesar salad",
+        "nameFi": "Kulman Lager 0,4 l",
+        "nameEn": "Corner Lager 0.4 l",
         "quantity": 2,
-        "price": 12.9
+        "price": 7.5
       }
     ]
   },
@@ -161,30 +194,29 @@
         "customer": "Aino",
         "statusFi": "Valmistuksessa",
         "statusEn": "In preparation",
-        "pickup": "11:45"
+        "pickup": "19:30"
       },
       {
         "id": "ORD-102",
         "customer": "Mikael",
         "statusFi": "Valmis noudettavaksi",
         "statusEn": "Ready for pickup",
-        "pickup": "12:10"
+        "pickup": "20:10"
       },
       {
         "id": "ORD-103",
         "customer": "Sara",
         "statusFi": "Toimitettu",
         "statusEn": "Completed",
-        "pickup": "12:30"
+        "pickup": "20:30"
       }
     ]
   },
   "transportPlaceholder": {
     "provider": "HSL Route API / Digitransit",
-    "nearestStop": "Rautatientori (template)",
-    "walkMinutes": 6,
-    "noteFi": "Korvaa tämä data HSL:n avoimesta API:sta haetulla lähimmän pysäkin, kävelyajan tai reittisuosituksen tiedolla.",
-    "noteEn": "Replace this with nearest stop, walking time or routing data from HSL open APIs."
+    "nearestStop": "Karhupuisto (template)",
+    "walkMinutes": 3,
+    "noteFi": "Korvaa tama data HSL:n avoimesta API:sta haetulla lahimman pysakin tai reitin tiedolla.",
+    "noteEn": "Replace this with nearest stop or routing data from HSL open APIs."
   }
 }
-

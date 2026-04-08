@@ -8,14 +8,15 @@ const state = {
 
 const fallbackData = {
   restaurant: {
-    name: 'Restaurant template',
-    taglineFi: 'Esimerkkidata ei latautunut.',
-    taglineEn: 'Example data failed to load.',
-    address: '-',
+    name: 'Kallion Kulma',
+    taglineFi: 'Korttelibaari, livemusiikkia ja viikon juomatarjoukset.',
+    taglineEn: 'Neighborhood bar with live music and weekly drink specials.',
+    address: 'Kallionkatu 8, 00530 Helsinki',
     openingHours: [],
   },
   announcements: [],
   weeklyMenus: [],
+  performers: [],
   cartTemplate: { pickupWindow: '-', items: [] },
   adminTemplate: { sampleOrders: [] },
   transportPlaceholder: {
@@ -78,10 +79,10 @@ function getHighlightDetails(weeklyMenus) {
 
   return {
     key: weeklyMenus[0].dayKey,
-    label: copy('Seuraava lounas', 'Next lunch'),
+    label: copy('Seuraava kattaus', 'Next selection'),
     note: copy(
-      'Jos ravintola on tänään suljettu, template korostaa seuraavan saatavilla olevan listan.',
-      'If the restaurant is closed today, the template highlights the next available menu.'
+      'Jos tänään ei ole listaa, korostetaan seuraava saatavilla oleva juomalista.',
+      'If no list is available today, the next available drink list is highlighted.'
     ),
   };
 }
@@ -106,7 +107,7 @@ function createAnnouncementsMarkup(announcements) {
 
 function createMenuMarkup(weeklyMenus, highlightDetails) {
   if (!weeklyMenus.length) {
-    return `<p class="empty-state">${copy('Ruokalistaa ei ole vielä lisätty.', 'No menu has been added yet.')}</p>`;
+    return `<p class="empty-state">${copy('Juomalistaa ei ole vielä lisätty.', 'No drinks have been added yet.')}</p>`;
   }
 
   return weeklyMenus
@@ -218,6 +219,30 @@ function createOrdersMarkup(sampleOrders) {
   `;
 }
 
+function createPerformersMarkup(performers) {
+  if (!performers || !performers.length) {
+    return `<p class="empty-state">${copy('Esiintyjiä ei ole lisätty vielä.', 'No performers have been added yet.')}</p>`;
+  }
+
+  return `
+    <div class="performer-grid">
+      ${performers
+        .map(
+          (performer) => `
+            <article class="performer-item">
+              <span class="section-eyebrow">${copy(performer.genreFi, performer.genreEn)}</span>
+              <h3>${performer.name}</h3>
+              <p class="meta-text">${copy('Päivä', 'Day')}: ${copy(performer.dayFi, performer.dayEn)}</p>
+              <p class="meta-text">${copy('Aika', 'Time')}: ${performer.time}</p>
+              <p class="small-note">${copy(performer.noteFi, performer.noteEn)}</p>
+            </article>
+          `
+        )
+        .join('')}
+    </div>
+  `;
+}
+
 function renderApp() {
   if (!app) {
     return;
@@ -237,27 +262,27 @@ function renderApp() {
     return;
   }
 
-  const { restaurant, announcements, weeklyMenus, cartTemplate, adminTemplate, transportPlaceholder } = state.data;
+  const { restaurant, announcements, weeklyMenus, performers = [], cartTemplate, adminTemplate, transportPlaceholder } = state.data;
   const highlightDetails = getHighlightDetails(weeklyMenus);
   const highlightedMenu = weeklyMenus.find((menu) => menu.dayKey === highlightDetails.key);
 
   document.documentElement.lang = state.lang;
-  document.title = copy('Ravintolaprojektin template', 'Restaurant project template');
+  document.title = copy('Kallion Kulma', 'Kallion Kulma');
 
   app.innerHTML = `
     <div class="app-shell">
       <header class="site-header">
         <div>
-          <p class="brand-subtitle">${copy('Kurssiprojektin runko', 'Course project skeleton')}</p>
+          <p class="brand-subtitle">${copy('Korttelibaari Helsingissa', 'Neighborhood bar in Helsinki')}</p>
           <h1 class="brand-title">${restaurant.name}</h1>
         </div>
         <nav class="site-nav" aria-label="Primary">
           <a href="#home">${copy('Etusivu', 'Home')}</a>
-          <a href="#menu">${copy('Ruokalista', 'Menu')}</a>
+          <a href="#performers">${copy('Esiintyjat', 'Performers')}</a>
+          <a href="#menu">${copy('Juomalista', 'Drinks')}</a>
           <a href="#customer">${copy('Asiakas', 'Customer')}</a>
           <a href="#cart">${copy('Ostoskori', 'Cart')}</a>
           <a href="#admin">${copy('Hallinta', 'Admin')}</a>
-          <a href="#roadmap">${copy('Rakenne', 'Roadmap')}</a>
         </nav>
         <div class="lang-switcher" aria-label="Language switcher">
           <button type="button" class="lang-button ${state.lang === 'fi' ? 'is-active' : ''}" data-lang="fi">FI</button>
@@ -268,22 +293,22 @@ function renderApp() {
       <main>
         <section class="hero" id="home">
           <article class="hero-card">
-            <span class="hero-eyebrow">${copy('Template, ei valmis toteutus', 'Template, not a finished implementation')}</span>
+            <span class="hero-eyebrow">${copy('Tervetuloa iltaan', 'Welcome to tonight')}</span>
             <h2>${copy(restaurant.taglineFi, restaurant.taglineEn)}</h2>
             <p class="section-intro">${copy(
-              'Tämä näkymä näyttää, miten kurssin vaatimukset voidaan jäsentää yhdeksi responsiiviseksi ravintolasivustoksi. Toteutetut toiminnot on pidetty tietoisesti kevyinä, jotta tästä on helppo jatkaa omaksi projektiksi.',
-              'This view shows how the course requirements can be shaped into one responsive restaurant site. The functionality is intentionally lightweight so your team can continue from here.'
+              'Kallion Kulma on rento baari, jossa loydat viikon juomatarjoukset, tulevat keikat ja noutotilausmahdollisuuden yhdesta paikasta.',
+              'Kallion Kulma is a relaxed bar where you can find weekly drink specials, upcoming live acts and pickup ordering in one place.'
             )}</p>
             <div class="hero-actions">
-              <a class="primary-button" href="#menu">${copy('Avaa menu-template', 'Open menu template')}</a>
-              <a class="secondary-button" href="#admin">${copy('Katso hallinnan runko', 'View admin skeleton')}</a>
+              <a class="primary-button" href="#menu">${copy('Avaa juomalista', 'Open drinks')}</a>
+              <a class="secondary-button" href="#performers">${copy('Katso esiintyjat', 'View performers')}</a>
             </div>
             ${state.loadError ? `<p class="template-note">${copy('Esimerkkidatan lataus epäonnistui, joten näkymä käyttää varadataa.', 'Example data failed to load, so the view uses fallback data.')}</p>` : ''}
           </article>
 
           <aside class="panel">
-            <span class="section-eyebrow">${copy('Ravintolan tiedot', 'Restaurant info')}</span>
-            <h3>${copy('Yhteystiedot ja aukiolo', 'Contact and opening hours')}</h3>
+            <span class="section-eyebrow">${copy('Baarin tiedot', 'Bar info')}</span>
+            <h3>${copy('Sijainti ja aukiolo', 'Location and opening hours')}</h3>
             <ul class="info-list">
               <li>${restaurant.address}</li>
               ${restaurant.openingHours.map((item) => `<li>${item}</li>`).join('')}
@@ -293,15 +318,29 @@ function renderApp() {
           </aside>
         </section>
 
+        <section class="section" id="performers">
+          <div class="section-header">
+            <div>
+              <span class="section-eyebrow">${copy('Viikon ohjelma', 'Weekly lineup')}</span>
+              <h2 class="section-heading">${copy('Esiintyjalista', 'Performer list')}</h2>
+            </div>
+            <p class="section-intro">${copy(
+              'Tahan osioon paivitat viikon DJ:t, trubaduurit ja teemalliset klubillat.',
+              'Use this section to update weekly DJs, live artists and themed club nights.'
+            )}</p>
+          </div>
+          ${createPerformersMarkup(performers)}
+        </section>
+
         <section class="section" id="menu">
           <div class="section-header">
             <div>
-              <span class="section-eyebrow">${copy('JSON-data + korostus', 'JSON data + highlighting')}</span>
-              <h2 class="section-heading">${copy('Ruoka- ja lounaslista', 'Food and lunch menu')}</h2>
+              <span class="section-eyebrow">${copy('JSON-data + paivan nosto', 'JSON data + daily highlight')}</span>
+              <h2 class="section-heading">${copy('Juomalista', 'Drink menu')}</h2>
             </div>
             <p class="section-intro">${copy(
-              'Tässä templaatissa lista haetaan paikallisesta JSON-tiedostosta. Vaihda myöhemmin URL esimerkiksi omaan Express-endpointiin `GET /api/menu`.',
-              'In this template, the list is loaded from a local JSON file. Later, replace the URL with your own Express endpoint such as `GET /api/menu`.'
+              'Juomalista haetaan JSON-datasta. Voit vaihtaa lahteen myohemmin oman API:n endpointin, esimerkiksi `GET /api/menu`.',
+              'The drink menu is loaded from JSON data. Later, you can switch to your own API endpoint such as `GET /api/menu`.'
             )}</p>
           </div>
 
@@ -311,20 +350,20 @@ function renderApp() {
               <h3>${highlightedMenu ? getDayName(highlightedMenu) : copy('Ei valittua päivää', 'No selected day')}</h3>
               <p class="meta-text">${highlightDetails.note}</p>
               <div class="tag-list">
-                <span class="tag">${copy('Hinnat näkyvissä', 'Pricing visible')}</span>
-                <span class="tag">${copy('Erityisruokavaliot näkyvissä', 'Dietary tags visible')}</span>
-                <span class="tag">${copy('Korostus automaattinen', 'Automatic highlight')}</span>
+                <span class="tag">${copy('Hinnat nakyvissa', 'Pricing visible')}</span>
+                <span class="tag">${copy('Juomatagit nakyvissa', 'Drink tags visible')}</span>
+                <span class="tag">${copy('Paivan nosto automaattinen', 'Automatic daily highlight')}</span>
               </div>
             </article>
             <article class="panel">
-              <span class="section-eyebrow">${copy('Ruokavaliotagit', 'Dietary tags')}</span>
-              <h3>${copy('Esimerkkiselitteet', 'Example legend')}</h3>
+              <span class="section-eyebrow">${copy('Juomatagit', 'Drink tags')}</span>
+              <h3>${copy('Tagien selitteet', 'Tag legend')}</h3>
               <ul class="info-list">
-                <li>L = ${copy('laktoositon', 'low lactose')}</li>
-                <li>G = ${copy('gluteeniton', 'gluten free')}</li>
-                <li>M = ${copy('maidoton', 'dairy free')}</li>
-                <li>VE = ${copy('vegaaninen', 'vegan')}</li>
-                <li>VL = ${copy('vähälaktoosinen', 'reduced lactose')}</li>
+                <li>DRAFT = ${copy('hanajuoma', 'draft')}</li>
+                <li>COCKTAIL = ${copy('cocktail', 'cocktail')}</li>
+                <li>NA = ${copy('alkoholiton', 'non-alcoholic')}</li>
+                <li>LOCAL = ${copy('lahituottaja', 'local brewery')}</li>
+                <li>HOT = ${copy('kuuma juoma', 'hot drink')}</li>
               </ul>
             </article>
           </div>

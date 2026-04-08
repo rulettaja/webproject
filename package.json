@@ -14,7 +14,8 @@
   "scripts": {
     "test": "node tests/template-structure.test.js",
     "start": "webpack serve --open --config webpack.config.dev.js",
-    "build": "webpack --config webpack.config.prod.js"
+    "build": "webpack --config webpack.config.prod.js",
+    "dev": "webpack serve --open --config webpack.config.dev.js"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
