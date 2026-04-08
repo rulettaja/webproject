@@ -1,0 +1,68 @@
+1. Create database
+CREATE DATABASE IF NOT EXISTS band_gigs;
+USE band_gigs;
+
+2. Drop tables if they already exist (clean reset)
+DROP TABLE IF EXISTS band_gig_mapping;
+DROP TABLE IF EXISTS gig;
+DROP TABLE IF EXISTS band;
+
+3. Create band table
+CREATE TABLE band (
+    band_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    genre VARCHAR(100)
+);
+
+4. Create gig table (no venue, only allowed cities)
+CREATE TABLE gig (
+    gig_id INT AUTO_INCREMENT PRIMARY KEY,
+    city ENUM('Helsinki', 'Turku', 'Tampere') NOT NULL,
+    gig_date DATE
+);
+
+5. Create mapping table
+CREATE TABLE band_gig_mapping (
+    band_id INT,
+    gig_id INT,
+    PRIMARY KEY (band_id, gig_id),
+    FOREIGN KEY (band_id) REFERENCES band(band_id) ON DELETE CASCADE,
+    FOREIGN KEY (gig_id) REFERENCES gig(gig_id) ON DELETE CASCADE
+);
+
+6. Insert bands
+INSERT INTO band (name, genre) VALUES
+('Electric Suns', 'Rock'),
+('Neon Waves', 'Synthwave'),
+('The Jazz Cats', 'Jazz'),
+('Khaos', 'Death Metal');
+
+7. Insert gigs
+INSERT INTO gig (city, gig_date) VALUES
+('Helsinki', '2026-07-10'),
+('Turku', '2026-07-15'),
+('Tampere', '2026-07-20'),
+('Helsinki', '2026-08-01'),
+('Turku', '2026-08-05'),
+('Tampere', '2026-08-10');
+
+8. Connect bands to gigs
+INSERT INTO band_gig_mapping (band_id, gig_id) VALUES
+(1, 1), -- Electric Suns → Helsinki
+(2, 1), -- Neon Waves → Helsinki
+(2, 2), -- Neon Waves → Turku
+(4, 2), -- Khaos → Turku
+(3, 3), -- Jazz Cats → Tampere
+(4, 3), -- Khaos → Tampere
+(1, 4), -- Electric Suns → Helsinki
+(2, 4), -- Neon Waves → Helsinki
+(4, 5), -- Khaos → Turku
+(3, 6); -- Jazz Cats → Tampere
+
+9. View final result
+SELECT g.city, g.gig_date, b.name AS band
+FROM gig g
+JOIN band_gig_mapping bgm ON g.gig_id = bgm.gig_id
+JOIN band b ON b.band_id = bgm.band_id
+ORDER BY g.gig_date;
+
