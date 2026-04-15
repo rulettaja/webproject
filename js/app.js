@@ -17,14 +17,17 @@ function createGigsMarkup(gigs) {
 
   return `
     <div class="performer-grid">
-      ${gigs.map(g => `
-        <article class="performer-item">
-          <span class="section-eyebrow">${g.city}</span>
-          <h3>${g.band}</h3>
-          <p class="meta-text">${copy('Päivä', 'Date')}: ${g.gig_date}</p>
-          <p class="small-note">ID: ${g.gig_id}</p>
-        </article>
-      `).join('')}
+      ${gigs.map(g => {
+        const date = new Date(g.gig_date).toLocaleDateString('fi-FI');
+
+        return `
+          <article class="performer-item">
+            <span class="section-eyebrow">${g.city}</span>
+            <h3>${g.band}</h3>
+            <p class="meta-text">${copy('Päivä', 'Date')}: ${date}</p>
+          </article>
+        `;
+      }).join('')}
     </div>
   `;
 }
