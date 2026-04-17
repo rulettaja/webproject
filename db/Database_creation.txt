@@ -59,7 +59,17 @@ INSERT INTO band_gig_mapping (band_id, gig_id) VALUES
 (4, 5), -- Khaos → Turku
 (3, 6); -- Jazz Cats → Tampere
 
-9. View final result
+9. CREATE TABLE users (
+       user_id INT AUTO_INCREMENT PRIMARY KEY,
+       username VARCHAR(100) NOT NULL,
+       password VARCHAR(100) NOT NULL
+   );
+
+   -- 11. Insert admin user
+   INSERT INTO users (username, password) VALUES
+   ('admin', 'admin');
+
+10. View final result
 SELECT g.city, g.gig_date, b.name AS band
 FROM gig g
 JOIN band_gig_mapping bgm ON g.gig_id = bgm.gig_id

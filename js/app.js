@@ -3,13 +3,26 @@ const app = document.querySelector('#app');
 const state = {
   lang: 'fi',
   gigs: [],
-  loadError: false
+  loadError: false,
+  route: 'home',
+  user: null // NEW (for login state)
 };
 
 function copy(fiText, enText) {
   return state.lang === 'fi' ? fiText : enText;
 }
 
+/* =========================
+   ROUTING
+========================= */
+function getRoute() {
+  const hash = window.location.hash.replace('#', '');
+  return hash || 'home';
+}
+
+/* =========================
+   GIGS VIEW
+========================= */
 function createGigsMarkup(gigs) {
   if (!gigs.length) {
     return `<p class="empty-state">${copy('Keikkoja ei löytynyt.', 'No gigs found.')}</p>`;
@@ -32,90 +45,93 @@ function createGigsMarkup(gigs) {
   `;
 }
 
+/* =========================
+   LOGIN VIEW
+========================= */
+function renderLogin() {
+  return `
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-heading">${copy('Kirjautuminen', 'Login')}</h2>
+      </div>
+
+      <div class="form-card">
+        <form class="form-stack" id="loginForm">
+          <div>
+            <label>Username</label>
+            <input name="username" required>
+          </div>
+          <div>
+            <label>${copy('Salasana', 'Password')}</label>
+            <input type="password" name="password" required>
+          </div>
+          <button type="submit" class="primary-button">
+            ${copy('Kirjaudu', 'Login')}
+          </button>
+          <p id="loginMessage"></p>
+        </form>
+      </div>
+    </section>
+  `;
+}
+
+/* =========================
+   MAIN RENDER
+========================= */
 function renderApp() {
   if (!app) return;
 
-  app.innerHTML = `
-    <div class="app-shell">
+  state.route = getRoute();
 
-      <!-- HEADER -->
-      <header class="site-header">
-        <div>
-          <p class="brand-subtitle">${copy('Livekeikat Suomessa', 'Live gigs in Finland')}</p>
-          <h1 class="brand-title">GigApp</h1>
-        </div>
+  let content = '';
 
-        <nav class="site-nav">
-          <a href="#home">${copy('Etusivu', 'Home')}</a>
-          <a href="#gigs">${copy('Keikat', 'Gigs')}</a>
-          <a href="#login">${copy('Kirjautuminen', 'Login')}</a>
-        </nav>
-
-        <div class="lang-switcher">
-          <button class="${state.lang === 'fi' ? 'is-active' : ''}" data-lang="fi">FI</button>
-          <button class="${state.lang === 'en' ? 'is-active' : ''}" data-lang="en">EN</button>
-        </div>
-      </header>
-
+  if (state.route === 'login') {
+    content = renderLogin();
+  } else {
+    content = `
       <!-- HERO -->
-      <section class="hero" id="home">
+      <section class="hero">
         <article class="hero-card">
           <span class="hero-eyebrow">${copy('Tervetuloa', 'Welcome')}</span>
           <h2>${copy('Tulevat keikat yhdestä paikasta', 'Upcoming gigs in one place')}</h2>
-          <p class="section-intro">
-            ${copy(
-              'Kaikki keikat haetaan suoraan tietokannasta API:n kautta.',
-              'All gigs are fetched directly from the database via API.'
-            )}
-          </p>
         </article>
       </section>
 
       <!-- GIGS -->
-      <section class="section" id="gigs">
+      <section class="section">
         <div class="section-header">
-          <div>
-            <span class="section-eyebrow">${copy('Tulevat keikat', 'Upcoming gigs')}</span>
-            <h2 class="section-heading">${copy('Keikkalista', 'Gig list')}</h2>
-          </div>
+          <h2 class="section-heading">${copy('Keikkalista', 'Gig list')}</h2>
         </div>
 
         ${state.loadError
           ? `<p class="empty-state">Error loading gigs</p>`
           : createGigsMarkup(state.gigs)}
       </section>
+    `;
+  }
 
-      <!-- LOGIN -->
-      <section class="section" id="login">
-        <div class="section-header">
-          <h2 class="section-heading">${copy('Kirjautuminen', 'Login')}</h2>
-        </div>
+  app.innerHTML = `
+    <div class="app-shell">
 
-        <div class="form-card">
-          <form class="form-stack">
-            <div>
-              <label>Email</label>
-              <input type="email" placeholder="email@example.com">
-            </div>
-            <div>
-              <label>${copy('Salasana', 'Password')}</label>
-              <input type="password" placeholder="••••••••">
-            </div>
-            <button type="button" class="primary-button">
-              ${copy('Kirjaudu', 'Login')}
-            </button>
-          </form>
-        </div>
-      </section>
+      <!-- HEADER -->
+      <header class="site-header">
+        <h1>GigApp</h1>
 
-      <!-- FOOTER -->
-      <footer class="site-footer">
-        <p>GigApp</p>
-      </footer>
+        <nav class="site-nav">
+          <a href="#home">Home</a>
+          <a href="#login">Login</a>
+        </nav>
+      </header>
+
+      ${content}
+
     </div>
   `;
 }
 
+/* =========================
+   LOAD GIGS
+========================= */
 async function loadGigs() {
   try {
     const response = await fetch('http://127.0.0.1:3000/gigs');
@@ -132,15 +148,55 @@ async function loadGigs() {
   renderApp();
 }
 
-/* Language switch */
-document.addEventListener('click', (e) => {
-  const btn = e.target.closest('[data-lang]');
-  if (!btn) return;
+/* =========================
+   LOGIN HANDLER (IMPORTANT)
+========================= */
+document.addEventListener('submit', async (e) => {
+  if (e.target.id !== "loginForm") return;
 
-  state.lang = btn.dataset.lang;
-  renderApp();
+  e.preventDefault();
+
+  const username = e.target.username.value;
+  const password = e.target.password.value;
+
+  try {
+    const res = await fetch('http://127.0.0.1:3000/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+
+    const msg = document.querySelector("#loginMessage");
+
+    if (!res.ok) {
+      msg.textContent = "❌ " + data.message;
+      return;
+    }
+
+    // SUCCESS
+    msg.textContent = "✅ Login successful";
+
+    state.user = data.user;
+
+    // redirect to home after login
+    setTimeout(() => {
+      window.location.hash = '#home';
+    }, 1000);
+
+  } catch (err) {
+    console.error(err);
+  }
 });
 
-/* INIT */
+/* =========================
+   ROUTE CHANGE
+========================= */
+window.addEventListener('hashchange', renderApp);
+
+/* =========================
+   INIT
+========================= */
 renderApp();
 loadGigs();
