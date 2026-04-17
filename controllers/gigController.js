@@ -55,6 +55,15 @@ router.post("/login", (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    res.json({ message: "Login successful", user: results[0] });
+    const user = results[0];
+
+    // Set a cookie that expires in 1 day
+    res.cookie('admin', JSON.stringify({ id: user.user_id, username: user.username }), {
+      httpOnly: false,   // false so JS can read it on the frontend
+      maxAge: 24 * 60 * 60 * 1000, // 1 day in ms
+      sameSite: 'lax'
+    });
+
+    res.json({ message: "Login successful", user });
   });
 });

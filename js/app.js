@@ -5,8 +5,16 @@ const state = {
   gigs: [],
   loadError: false,
   route: 'home',
-  user: null // NEW (for login state)
+  user: null
 };
+
+// Restore user from cookie if present
+(function restoreSession() {
+  const match = document.cookie.split('; ').find(r => r.startsWith('gigapp_user='));
+  if (match) {
+    try { state.user = JSON.parse(decodeURIComponent(match.split('=')[1])); } catch {}
+  }
+})();
 
 function copy(fiText, enText) {
   return state.lang === 'fi' ? fiText : enText;
@@ -31,16 +39,16 @@ function createGigsMarkup(gigs) {
   return `
     <div class="performer-grid">
       ${gigs.map(g => {
-        const date = new Date(g.gig_date).toLocaleDateString('fi-FI');
+    const date = new Date(g.gig_date).toLocaleDateString('fi-FI');
 
-        return `
+    return `
           <article class="performer-item">
             <span class="section-eyebrow">${g.city}</span>
             <h3>${g.band}</h3>
             <p class="meta-text">${copy('Päivä', 'Date')}: ${date}</p>
           </article>
         `;
-      }).join('')}
+  }).join('')}
     </div>
   `;
 }
@@ -97,6 +105,12 @@ function renderApp() {
         </article>
       </section>
 
+           <!-- juoma -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-heading">${copy('Juomalista', 'Gig list')}</h2>
+        </div>
+
       <!-- GIGS -->
       <section class="section">
         <div class="section-header">
@@ -104,8 +118,8 @@ function renderApp() {
         </div>
 
         ${state.loadError
-          ? `<p class="empty-state">Error loading gigs</p>`
-          : createGigsMarkup(state.gigs)}
+      ? `<p class="empty-state">Error loading gigs</p>`
+      : createGigsMarkup(state.gigs)}
       </section>
     `;
   }
@@ -119,7 +133,9 @@ function renderApp() {
 
         <nav class="site-nav">
           <a href="#home">Home</a>
-          <a href="#login">Login</a>
+          ${state.user
+            ? `<span>👤 ${state.user.username}</span> <a href="#" id="logoutBtn">Logout</a>`
+            : `<a href="#login">Login</a>`}
         </nav>
       </header>
 
@@ -163,6 +179,7 @@ document.addEventListener('submit', async (e) => {
     const res = await fetch('http://127.0.0.1:3000/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ username, password })
     });
 
@@ -188,6 +205,19 @@ document.addEventListener('submit', async (e) => {
   } catch (err) {
     console.error(err);
   }
+});
+
+/* =========================
+   LOGOUT HANDLER
+========================= */
+document.addEventListener('click', (e) => {
+  if (e.target.id !== 'logoutBtn') return;
+  e.preventDefault();
+  // Clear the cookie
+  document.cookie = 'gigapp_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  state.user = null;
+  window.location.hash = '#home';
+  renderApp();
 });
 
 /* =========================
