@@ -1,3 +1,4 @@
+import app from './app.js';
 
 const app = document.querySelector('#app');
 
@@ -5,7 +6,7 @@ const state = {
   lang: 'fi',
   gigs: [],
   loadError: false,
-  route: 'home',
+  route: 'mod',
   user: null
 };
 
@@ -96,34 +97,13 @@ function renderApp() {
 
   if (state.route === 'login') {
     content = renderLogin();
-  } else if (state.route === 'mod') {
-    content = `
-      <!-- HERO -->
-      <section class="hero">
-        <article class="hero-card">
-          <span class="hero-eyebrow">${copy('Hallinto', 'Admin')}</span>
-          <h2>${copy('Hallinto Sivu', 'Admin Panel')}</h2>
-        </article>
-      </section>
-
-      <!-- GIGS -->
-      <section class="section">
-        <div class="section-header">
-          <h2 class="section-heading">${copy('Keikkalista', 'Gig list')}</h2>
-        </div>
-
-        ${state.loadError
-      ? `<p class="empty-state">Error loading gigs</p>`
-      : createGigsMarkup(state.gigs)}
-      </section>
-    `;
   } else {
     content = `
       <!-- HERO -->
       <section class="hero">
         <article class="hero-card">
           <span class="hero-eyebrow">${copy('Tervetuloa', 'Welcome')}</span>
-          <h2>${copy('Kallion Kovin Kulmaus', 'Upcoming gigs in one place')}</h2>
+          <h2>${copy('Hallinto Sivu', 'Upcoming gigs in one place')}</h2>
         </article>
       </section>
 
@@ -156,8 +136,8 @@ function renderApp() {
         <nav class="site-nav">
           <a href="#home">Home</a>
           ${state.user
-            ? `<span>👤 ${state.user.username}</span> <a href="#" id="logoutBtn">Logout</a>`
-            : `<a href="#login">Login</a>`}
+    ? `<span>👤 ${state.user.username}</span> <a href="#" id="logoutBtn">Logout</a>`
+    : `<a href="#login">Login</a>`}
         </nav>
       </header>
 
@@ -219,9 +199,9 @@ document.addEventListener('submit', async (e) => {
 
     state.user = data.user;
 
-    // redirect to mod (admin) after login
+    // redirect to home after login
     setTimeout(() => {
-      window.location.hash = '#mod';
+      window.location.hash = '#home';
     }, 1000);
 
   } catch (err) {
@@ -238,7 +218,7 @@ document.addEventListener('click', (e) => {
   // Clear the cookie
   document.cookie = 'gigapp_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   state.user = null;
-  window.location.hash = '#mod';
+  window.location.hash = '#home';
   renderApp();
 });
 
