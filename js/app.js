@@ -55,6 +55,94 @@ function createGigsMarkup(gigs) {
 }
 
 /* =========================
+   DRINK MENU DATA
+========================= */
+const drinkMenu = [
+  {
+    dayFi: 'Maanantai', dayEn: 'Monday',
+    items: [
+      { nameFi: 'Kulman Lager 0,4 l', nameEn: 'Corner Lager 0.4 l', price: 7.50, tags: ['DRAFT', 'LOCAL'] },
+      { nameFi: 'Inkivaarilimonaadi', nameEn: 'Ginger Lemonade', price: 5.50, tags: ['NA'] }
+    ]
+  },
+  {
+    dayFi: 'Tiistai', dayEn: 'Tuesday',
+    items: [
+      { nameFi: 'Happy Hour Siideri 0,33 l', nameEn: 'Happy Hour Cider 0.33 l', price: 6.00, tags: ['DRAFT'] },
+      { nameFi: 'Punaviini (lasi)', nameEn: 'Red Wine (glass)', price: 8.50, tags: ['WINE'] }
+    ]
+  },
+  {
+    dayFi: 'Keskiviikko', dayEn: 'Wednesday',
+    items: [
+      { nameFi: 'Kulman IPA 0,4 l', nameEn: 'Corner IPA 0.4 l', price: 8.00, tags: ['DRAFT', 'LOCAL'] },
+      { nameFi: 'Valkoviini (lasi)', nameEn: 'White Wine (glass)', price: 8.50, tags: ['WINE'] }
+    ]
+  },
+  {
+    dayFi: 'Torstai', dayEn: 'Thursday',
+    items: [
+      { nameFi: 'Lonkero 0,33 l', nameEn: 'Long Drink 0.33 l', price: 6.50, tags: ['CAN'] },
+      { nameFi: 'Minttulimu (NA)', nameEn: 'Mint Lemonade (NA)', price: 5.00, tags: ['NA'] }
+    ]
+  },
+  {
+    dayFi: 'Perjantai', dayEn: 'Friday', highlight: true,
+    items: [
+      { nameFi: 'Kulman Lager 0,5 l', nameEn: 'Corner Lager 0.5 l', price: 8.50, tags: ['DRAFT', 'LOCAL'] },
+      { nameFi: 'Gin & Tonic', nameEn: 'Gin & Tonic', price: 10.00, tags: ['COCKTAIL'] },
+      { nameFi: 'Alkoholiton Mojito', nameEn: 'Virgin Mojito', price: 7.00, tags: ['NA'] }
+    ]
+  },
+  {
+    dayFi: 'Lauantai', dayEn: 'Saturday', highlight: true,
+    items: [
+      { nameFi: 'Samppanja (lasi)', nameEn: 'Champagne (glass)', price: 12.00, tags: ['SPARKLING'] },
+      { nameFi: 'Kulman Tumma 0,4 l', nameEn: 'Corner Dark Ale 0.4 l', price: 8.50, tags: ['DRAFT', 'LOCAL'] }
+    ]
+  },
+  {
+    dayFi: 'Sunnuntai', dayEn: 'Sunday',
+    items: [
+      { nameFi: 'Bloody Mary', nameEn: 'Bloody Mary', price: 9.50, tags: ['COCKTAIL'] },
+      { nameFi: 'Appelsiinimehu', nameEn: 'Orange Juice', price: 4.50, tags: ['NA'] }
+    ]
+  }
+];
+
+function renderDrinkMenu() {
+  return `
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-heading">${copy('Viikon Juomalista', 'Weekly Drink Menu')}</h2>
+        <span class="badge">🍺 ${copy('Viikko', 'Week')}</span>
+      </div>
+      <div class="menu-grid">
+        ${drinkMenu.map(day => `
+          <div class="menu-day${day.highlight ? ' menu-day--highlight' : ''}">
+            <div class="menu-day__header">
+              <h3>${copy(day.dayFi, day.dayEn)}</h3>
+              ${day.highlight ? `<span class="badge">⭐ ${copy('Suosittu', 'Popular')}</span>` : ''}
+            </div>
+            ${day.items.map(item => `
+              <div class="menu-item">
+                <div class="menu-item__top">
+                  <strong>${copy(item.nameFi, item.nameEn)}</strong>
+                  <span class="price">${item.price.toFixed(2)} €</span>
+                </div>
+                <div class="tag-list">
+                  ${item.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `).join('')}
+      </div>
+    </section>
+  `;
+}
+
+/* =========================
    LOGIN VIEW
 ========================= */
 function renderLogin() {
@@ -123,15 +211,12 @@ function renderApp() {
       <section class="hero">
         <article class="hero-card">
           <span class="hero-eyebrow">${copy('Tervetuloa', 'Welcome')}</span>
-          <h2>${copy('Kallion Kovin Kulmaus', 'Upcoming gigs in one place')}</h2>
+          <h1>${copy('Kun tarvitset hyvän tyypin kulmaukseesi…', 'Upcoming gigs in one place')}</h1>
         </article>
       </section>
 
            <!-- juoma -->
-      <section class="section">
-        <div class="section-header">
-          <h2 class="section-heading">${copy('Juomalista', 'Gig list')}</h2>
-        </div>
+      ${renderDrinkMenu()}
 
       <!-- GIGS -->
       <section class="section">
