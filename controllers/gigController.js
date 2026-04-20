@@ -37,9 +37,7 @@ router.get("/gigs/:id", (req, res) => {
 
 module.exports = router;
 
-// =========================
-// LOGIN
-// =========================
+
 router.post("/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -67,3 +65,6 @@ router.post("/login", (req, res) => {
     res.json({ message: "Login successful", user });
   });
 });
+
+module.exports = router;
+

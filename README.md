@@ -102,3 +102,33 @@ Voitte käyttää tätä jakoa:
 - `database/schema.template.sql` – SQL-taulujen runko
 - `tests/test-plan.md` – kurssin testitavoitteiden pohja
 
+## The Odds API integration (major scores)
+
+Backend now exposes a proxy route:
+- `GET /api/scores`
+
+It fetches major leagues (NFL, NBA, MLB, NHL, Premier League) from The Odds API and returns normalized score cards for the frontend.
+
+### Setup
+
+1. Copy `.env.example` to `.env`
+2. Add your API key from The Odds API:
+
+```powershell
+ODDS_API_KEY=your_real_key_here
+```
+
+> On Windows PowerShell, if you run without `.env` loading, you can also set it before starting server:
+
+```powershell
+$env:ODDS_API_KEY="your_real_key_here"
+node server.js
+```
+
+### Quick test
+
+```powershell
+curl.exe http://localhost:3000/api/scores
+```
+
+If configured correctly, you will get JSON with `{ source, scores }` and scores will appear on the home page under **Major League Scores**.

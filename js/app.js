@@ -1,10 +1,10 @@
-
 const app = document.querySelector('#app');
 
 const state = {
-  lang: 'fi',
   gigs: [],
   loadError: false,
+  scores: [],
+  scoresError: false,
   route: 'home',
   user: null
 };
@@ -17,24 +17,18 @@ const state = {
   }
 })();
 
-function copy(fiText, enText) {
-  return state.lang === 'fi' ? fiText : enText;
+function copy(fiText) {
+  return fiText;
 }
 
-/* =========================
-   ROUTING
-========================= */
 function getRoute() {
   const hash = window.location.hash.replace('#', '');
   return hash || 'home';
 }
 
-/* =========================
-   GIGS VIEW
-========================= */
 function createGigsMarkup(gigs) {
   if (!gigs.length) {
-    return `<p class="empty-state">${copy('Keikkoja ei löytynyt.', 'No gigs found.')}</p>`;
+    return `<p class="empty-state">${copy('Keikkoja ei loytynyt.')}</p>`;
   }
 
   return `
@@ -46,7 +40,7 @@ function createGigsMarkup(gigs) {
           <article class="performer-item">
             <span class="section-eyebrow">${g.city}</span>
             <h3>${g.band}</h3>
-            <p class="meta-text">${copy('Päivä', 'Date')}: ${date}</p>
+            <p class="meta-text">${copy('Paiva')}: ${date}</p>
           </article>
         `;
   }).join('')}
@@ -54,58 +48,55 @@ function createGigsMarkup(gigs) {
   `;
 }
 
-/* =========================
-   DRINK MENU DATA
-========================= */
 const drinkMenu = [
   {
-    dayFi: 'Maanantai', dayEn: 'Monday',
+    day: 'Maanantai',
     items: [
-      { nameFi: 'Kulman Lager 0,4 l', nameEn: 'Corner Lager 0.4 l', price: 7.50, tags: ['DRAFT', 'LOCAL'] },
-      { nameFi: 'Inkivaarilimonaadi', nameEn: 'Ginger Lemonade', price: 5.50, tags: ['NA'] }
+      { name: 'Kulman Lager 0,4 l', price: 7.50, tags: ['DRAFT', 'LOCAL'] },
+      { name: 'Inkivaarilimonaadi', price: 5.50, tags: ['NA'] }
     ]
   },
   {
-    dayFi: 'Tiistai', dayEn: 'Tuesday',
+    day: 'Tiistai',
     items: [
-      { nameFi: 'Happy Hour Siideri 0,33 l', nameEn: 'Happy Hour Cider 0.33 l', price: 6.00, tags: ['DRAFT'] },
-      { nameFi: 'Punaviini (lasi)', nameEn: 'Red Wine (glass)', price: 8.50, tags: ['WINE'] }
+      { name: 'Happy Hour Siideri 0,33 l', price: 6.00, tags: ['DRAFT'] },
+      { name: 'Punaviini (lasi)', price: 8.50, tags: ['WINE'] }
     ]
   },
   {
-    dayFi: 'Keskiviikko', dayEn: 'Wednesday',
+    day: 'Keskiviikko',
     items: [
-      { nameFi: 'Kulman IPA 0,4 l', nameEn: 'Corner IPA 0.4 l', price: 8.00, tags: ['DRAFT', 'LOCAL'] },
-      { nameFi: 'Valkoviini (lasi)', nameEn: 'White Wine (glass)', price: 8.50, tags: ['WINE'] }
+      { name: 'Kulman IPA 0,4 l', price: 8.00, tags: ['DRAFT', 'LOCAL'] },
+      { name: 'Valkoviini (lasi)', price: 8.50, tags: ['WINE'] }
     ]
   },
   {
-    dayFi: 'Torstai', dayEn: 'Thursday',
+    day: 'Torstai',
     items: [
-      { nameFi: 'Lonkero 0,33 l', nameEn: 'Long Drink 0.33 l', price: 6.50, tags: ['CAN'] },
-      { nameFi: 'Minttulimu (NA)', nameEn: 'Mint Lemonade (NA)', price: 5.00, tags: ['NA'] }
+      { name: 'Lonkero 0,33 l', price: 6.50, tags: ['CAN'] },
+      { name: 'Minttulimu (NA)', price: 5.00, tags: ['NA'] }
     ]
   },
   {
-    dayFi: 'Perjantai', dayEn: 'Friday', highlight: true,
+    day: 'Perjantai', highlight: true,
     items: [
-      { nameFi: 'Kulman Lager 0,5 l', nameEn: 'Corner Lager 0.5 l', price: 8.50, tags: ['DRAFT', 'LOCAL'] },
-      { nameFi: 'Gin & Tonic', nameEn: 'Gin & Tonic', price: 10.00, tags: ['COCKTAIL'] },
-      { nameFi: 'Alkoholiton Mojito', nameEn: 'Virgin Mojito', price: 7.00, tags: ['NA'] }
+      { name: 'Kulman Lager 0,5 l', price: 8.50, tags: ['DRAFT', 'LOCAL'] },
+      { name: 'Gin & Tonic', price: 10.00, tags: ['COCKTAIL'] },
+      { name: 'Alkoholiton Mojito', price: 7.00, tags: ['NA'] }
     ]
   },
   {
-    dayFi: 'Lauantai', dayEn: 'Saturday', highlight: true,
+    day: 'Lauantai', highlight: true,
     items: [
-      { nameFi: 'Samppanja (lasi)', nameEn: 'Champagne (glass)', price: 12.00, tags: ['SPARKLING'] },
-      { nameFi: 'Kulman Tumma 0,4 l', nameEn: 'Corner Dark Ale 0.4 l', price: 8.50, tags: ['DRAFT', 'LOCAL'] }
+      { name: 'Samppanja (lasi)', price: 12.00, tags: ['SPARKLING'] },
+      { name: 'Kulman Tumma 0,4 l', price: 8.50, tags: ['DRAFT', 'LOCAL'] }
     ]
   },
   {
-    dayFi: 'Sunnuntai', dayEn: 'Sunday',
+    day: 'Sunnuntai',
     items: [
-      { nameFi: 'Bloody Mary', nameEn: 'Bloody Mary', price: 9.50, tags: ['COCKTAIL'] },
-      { nameFi: 'Appelsiinimehu', nameEn: 'Orange Juice', price: 4.50, tags: ['NA'] }
+      { name: 'Bloody Mary', price: 9.50, tags: ['COCKTAIL'] },
+      { name: 'Appelsiinimehu', price: 4.50, tags: ['NA'] }
     ]
   }
 ];
@@ -114,20 +105,20 @@ function renderDrinkMenu() {
   return `
     <section class="section">
       <div class="section-header">
-        <h2 class="section-heading">${copy('Viikon Juomalista', 'Weekly Drink Menu')}</h2>
-        <span class="badge">🍺 ${copy('Viikko', 'Week')}</span>
+        <h1 class="section-heading">${copy('Kippistelijän Kulma')}</h1>
+        <span class="badge">🍺 ${copy('Viikko')}</span>
       </div>
       <div class="menu-grid">
         ${drinkMenu.map(day => `
           <div class="menu-day${day.highlight ? ' menu-day--highlight' : ''}">
             <div class="menu-day__header">
-              <h3>${copy(day.dayFi, day.dayEn)}</h3>
-              ${day.highlight ? `<span class="badge">⭐ ${copy('Suosittu', 'Popular')}</span>` : ''}
+              <h3>${day.day}</h3>
+              ${day.highlight ? `<span class="badge">⭐ ${copy('Suosittu')}</span>` : ''}
             </div>
             ${day.items.map(item => `
               <div class="menu-item">
                 <div class="menu-item__top">
-                  <strong>${copy(item.nameFi, item.nameEn)}</strong>
+                  <strong>${item.name}</strong>
                   <span class="price">${item.price.toFixed(2)} €</span>
                 </div>
                 <div class="tag-list">
@@ -142,28 +133,25 @@ function renderDrinkMenu() {
   `;
 }
 
-/* =========================
-   LOGIN VIEW
-========================= */
 function renderLogin() {
   return `
     <section class="section">
       <div class="section-header">
-        <h2 class="section-heading">${copy('Kirjautuminen', 'Login')}</h2>
+        <h2 class="section-heading">${copy('Kirjautuminen')}</h2>
       </div>
 
       <div class="form-card">
         <form class="form-stack" id="loginForm">
           <div>
-            <label>Username</label>
+            <label>${copy('Kayttajatunnus')}</label>
             <input name="username" required>
           </div>
           <div>
-            <label>${copy('Salasana', 'Password')}</label>
+            <label>${copy('Salasana')}</label>
             <input type="password" name="password" required>
           </div>
           <button type="submit" class="primary-button">
-            ${copy('Kirjaudu', 'Login')}
+            ${copy('Kirjaudu')}
           </button>
           <p id="loginMessage"></p>
         </form>
@@ -172,9 +160,34 @@ function renderLogin() {
   `;
 }
 
-/* =========================
-   MAIN RENDER
-========================= */
+function createScoresMarkup(scores) {
+  if (!scores.length) {
+    return `<p class="empty-state">${copy('Ei tuloksia juuri nyt.')}</p>`;
+  }
+
+  return `
+    <div class="performer-grid">
+      ${scores.slice(0, 12).map((game) => {
+    const timeText = new Date(game.commenceTime).toLocaleString('fi-FI');
+    const scoreKnown = game.homeScore !== null && game.awayScore !== null;
+    const scoreText = scoreKnown
+      ? `${game.homeScore} - ${game.awayScore}`
+      : copy('Ei pisteita viela');
+
+    return `
+          <article class="performer-item">
+            <span class="section-eyebrow">${game.sport}</span>
+            <h3>${game.homeTeam} vs ${game.awayTeam}</h3>
+            <p class="meta-text">${timeText}</p>
+            <p><strong>${copy('Tulos')}:</strong> ${scoreText}</p>
+            <p class="meta-text">${game.completed ? copy('Paattynyt') : copy('Kaynnissa / tulossa')}</p>
+          </article>
+        `;
+  }).join('')}
+    </div>
+  `;
+}
+
 function renderApp() {
   if (!app) return;
 
@@ -186,83 +199,79 @@ function renderApp() {
     content = renderLogin();
   } else if (state.route === 'mod') {
     content = `
-      <!-- HERO -->
       <section class="hero">
         <article class="hero-card">
-          <span class="hero-eyebrow">${copy('Hallinto', 'Admin')}</span>
-          <h2>${copy('Hallinto Sivu', 'Admin Panel')}</h2>
+          <span class="hero-eyebrow">${copy('Hallinto')}</span>
+          <h2>${copy('Hallinto Sivu')}</h2>
         </article>
       </section>
 
-      <!-- GIGS -->
       <section class="section">
         <div class="section-header">
-          <h2 class="section-heading">${copy('Keikkalista', 'Gig list')}</h2>
+          <h1 class="section-heading">${copy('Keikkakärpästen Kulma')}</h1>
         </div>
 
         ${state.loadError
-      ? `<p class="empty-state">Error loading gigs</p>`
+      ? `<p class="empty-state">${copy('Virhe keikkojen latauksessa')}</p>`
       : createGigsMarkup(state.gigs)}
       </section>
     `;
   } else {
     content = `
-      <!-- HERO -->
       <section class="hero">
         <article class="hero-card">
-          <span class="hero-eyebrow">${copy('Tervetuloa', 'Welcome')}</span>
-          <h1>${copy('Kun tarvitset hyvän tyypin kulmaukseesi…', 'Upcoming gigs in one place')}</h1>
+          <h1>${copy('Kun tarvitset hyvän tyypin kulmaukseesi...')}</h1>
         </article>
       </section>
 
-           <!-- juoma -->
       ${renderDrinkMenu()}
 
-      <!-- GIGS -->
       <section class="section">
         <div class="section-header">
-          <h2 class="section-heading">${copy('Keikkalista', 'Gig list')}</h2>
+          <h1 class="section-heading">${copy('Keikkakärpästen Kulma')}</h1>
         </div>
 
         ${state.loadError
-      ? `<p class="empty-state">Error loading gigs</p>`
+      ? `<p class="empty-state">${copy('Virhe keikkojen latauksessa')}</p>`
       : createGigsMarkup(state.gigs)}
+      </section>
+
+
+      <section class="section">
+        <div class="section-header">
+           <h1>${copy('Pelimiehen Kulma')}</h1>
+        </div>
+
+        ${state.scoresError
+      ? `<p class="empty-state">${copy('Tulosten lataus epaonnistui.')}</p>`
+      : createScoresMarkup(state.scores)}
       </section>
     `;
   }
 
   app.innerHTML = `
     <div class="app-shell">
-
-      <!-- HEADER -->
       <header class="site-header">
         <h1 class="brand-title">Kallion Kulma</h1>
-
+            <h2 class="info"> Juomat | Live-musiikki | Urheilu</h2>
         <nav class="site-nav">
-          <a href="#home">Home</a>
+          <a href="#home">${copy('Etusivu')}</a>
           ${state.user
-            ? `<span>👤 ${state.user.username}</span> <a href="#" id="logoutBtn">Logout</a>`
-            : `<a href="#login">Login</a>`}
+            ? `<span>👤 ${state.user.username}</span> <a href="#" id="logoutBtn">${copy('Kirjaudu ulos')}</a>`
+            : `<a href="#login">${copy('Kirjaudu')}</a>`}
         </nav>
       </header>
 
       ${content}
-
     </div>
   `;
 }
 
-/* =========================
-   LOAD GIGS
-========================= */
 async function loadGigs() {
   try {
     const response = await fetch('http://127.0.0.1:3000/gigs');
-
-    if (!response.ok) throw new Error("API error");
-
+    if (!response.ok) throw new Error('API error');
     state.gigs = await response.json();
-
   } catch (error) {
     console.error(error);
     state.loadError = true;
@@ -271,11 +280,23 @@ async function loadGigs() {
   renderApp();
 }
 
-/* =========================
-   LOGIN HANDLER (IMPORTANT)
-========================= */
+async function loadMajorScores() {
+  try {
+    const response = await fetch('http://127.0.0.1:3000/api/scores');
+    if (!response.ok) throw new Error('Scores API error');
+
+    const payload = await response.json();
+    state.scores = Array.isArray(payload.scores) ? payload.scores : [];
+  } catch (error) {
+    console.error(error);
+    state.scoresError = true;
+  }
+
+  renderApp();
+}
+
 document.addEventListener('submit', async (e) => {
-  if (e.target.id !== "loginForm") return;
+  if (e.target.id !== 'loginForm') return;
 
   e.preventDefault();
 
@@ -291,49 +312,36 @@ document.addEventListener('submit', async (e) => {
     });
 
     const data = await res.json();
-
-    const msg = document.querySelector("#loginMessage");
+    const msg = document.querySelector('#loginMessage');
 
     if (!res.ok) {
-      msg.textContent = "❌ " + data.message;
+      msg.textContent = '❌ ' + data.message;
       return;
     }
 
-    // SUCCESS
-    msg.textContent = "✅ Login successful";
-
+    msg.textContent = '✅ ' + copy('Kirjautuminen onnistui');
     state.user = data.user;
 
-    // redirect to mod (admin) after login
     setTimeout(() => {
       window.location.hash = '#mod';
     }, 1000);
-
   } catch (err) {
     console.error(err);
   }
 });
 
-/* =========================
-   LOGOUT HANDLER
-========================= */
 document.addEventListener('click', (e) => {
   if (e.target.id !== 'logoutBtn') return;
   e.preventDefault();
-  // Clear the cookie
+
   document.cookie = 'gigapp_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   state.user = null;
   window.location.hash = '#mod';
   renderApp();
 });
 
-/* =========================
-   ROUTE CHANGE
-========================= */
 window.addEventListener('hashchange', renderApp);
 
-/* =========================
-   INIT
-========================= */
 renderApp();
 loadGigs();
+loadMajorScores();
