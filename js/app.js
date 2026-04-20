@@ -257,7 +257,7 @@ function renderApp() {
         <nav class="site-nav">
           <a href="#home">${copy('Etusivu')}</a>
           ${state.user
-            ? `<span>👤 ${state.user.username}</span> <a href="#" id="logoutBtn">${copy('Kirjaudu ulos')}</a>`
+            ? `<span>👤 ${state.user.username}</span> <a href="#mod">${copy('Hallintasivu')}</a> <a href="#" id="logoutBtn">${copy('Kirjaudu ulos')}</a>`
             : `<a href="#login">${copy('Kirjaudu')}</a>`}
         </nav>
       </header>
