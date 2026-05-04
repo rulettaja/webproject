@@ -290,12 +290,6 @@ function renderApp() {
 
   state.route = getRoute();
 
-  // Prevent non-admin access to mod
-  if (state.route === 'mod' && (!state.user || state.user.role !== 'admin')) {
-    window.location.hash = '#home';
-    state.route = 'home';
-  }
-
   let content = '';
 
   if (state.route === 'login') {
@@ -369,7 +363,7 @@ function renderApp() {
           ${
     state.user
       ? `<span>👤 ${state.user.username}</span>
-                 ${state.user.role === 'admin' ? `<a href="#mod">${copy('Hallintasivu')}</a>` : ''}
+                 <a href="#mod">${copy('Hallintasivu')}</a>
                  <a href="#" id="logoutBtn">${copy('Kirjaudu ulos')}</a>`
       : `<a href="#login">${copy('Kirjaudu')}</a>
                  <a href="#register">${copy('Rekisteröidy')}</a>`
@@ -438,11 +432,7 @@ document.addEventListener('submit', async (e) => {
   state.user = data.user;
 
   setTimeout(() => {
-    if (data.user.role === 'admin') {
-      window.location.hash = '#mod';
-    } else {
-      window.location.hash = '#home';
-    }
+    window.location.hash = '#mod';
   }, 1000);
 });
 

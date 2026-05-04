@@ -9,8 +9,8 @@ router.get("/gigs", (req, res) => {
   const sql = `
     SELECT g.gig_id, g.city, g.gig_date, b.name AS band
     FROM gig g
-           JOIN band_gig_mapping bgm ON g.gig_id = bgm.gig_id
-           JOIN band b ON b.band_id = bgm.band_id
+    JOIN band_gig_mapping bgm ON g.gig_id = bgm.gig_id
+    JOIN band b ON b.band_id = bgm.band_id
     ORDER BY g.gig_date
   `;
 
@@ -24,8 +24,8 @@ router.get("/gigs/:id", (req, res) => {
   const sql = `
     SELECT g.gig_id, g.city, g.gig_date, b.name AS band
     FROM gig g
-           JOIN band_gig_mapping bgm ON g.gig_id = bgm.gig_id
-           JOIN band b ON b.band_id = bgm.band_id
+    JOIN band_gig_mapping bgm ON g.gig_id = bgm.gig_id
+    JOIN band b ON b.band_id = bgm.band_id
     WHERE g.gig_id = ?
   `;
 
@@ -92,15 +92,14 @@ router.post("/login", (req, res) => {
 
     res.cookie('gigapp_user', JSON.stringify({
       id: user.user_id,
-      username: user.username,
-      role: user.role
+      username: user.username
     }), {
       httpOnly: false,
       maxAge: 24 * 60 * 60 * 1000,
       sameSite: 'lax'
     });
 
-    res.json({ message: "Login successful", user: { id: user.user_id, username: user.username, role: user.role } });
+    res.json({ message: "Login successful", user });
   });
 });
 
