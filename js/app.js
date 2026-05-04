@@ -34,9 +34,7 @@ function getRoute() {
   return hash || 'home';
 }
 
-/* =========================
-   REGISTER VIEW (NEW)
-========================= */
+
 function renderRegister() {
   return `
     <section class="section">
@@ -87,9 +85,7 @@ function createGigsMarkup(gigs) {
   `;
 }
 
-/* =========================
-   DRINK MENU (UNCHANGED)
-========================= */
+
 const drinkMenu = [
   {
     day: 'Maanantai',
@@ -294,7 +290,7 @@ function renderApp() {
     content = renderLogin();
   } else if (state.route === 'register') {
     content = renderRegister();
-  } else if (state.route === 'mod') {
+  } else if (state.route === 'home') {
     content = `
       <section class="hero">
         <article class="hero-card">
@@ -460,9 +456,7 @@ document.addEventListener('submit', async (e) => {
   }, 1000);
 });
 
-/* =========================
-   LOGOUT
-========================= */
+
 document.addEventListener('click', (e) => {
   if (e.target.id !== 'logoutBtn') return;
 
@@ -472,9 +466,7 @@ document.addEventListener('click', (e) => {
   renderApp();
 });
 
-/* =========================
-   GIG DETAIL
-========================= */
+
 document.addEventListener('click', (e) => {
   if (!e.target.classList.contains('detail-button')) return;
 

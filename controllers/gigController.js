@@ -2,9 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db/db");
 
-/* =========================
-   GET GIGS
-========================= */
+
 router.get("/gigs", (req, res) => {
   const sql = `
     SELECT g.gig_id, g.city, g.gig_date, b.name AS band
