@@ -2,12 +2,15 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db/db");
 
+/* =========================
+   GET GIGS
+========================= */
 router.get("/gigs", (req, res) => {
   const sql = `
     SELECT g.gig_id, g.city, g.gig_date, b.name AS band
     FROM gig g
-    JOIN band_gig_mapping bgm ON g.gig_id = bgm.gig_id
-    JOIN band b ON b.band_id = bgm.band_id
+           JOIN band_gig_mapping bgm ON g.gig_id = bgm.gig_id
+           JOIN band b ON b.band_id = bgm.band_id
     ORDER BY g.gig_date
   `;
 
@@ -21,8 +24,8 @@ router.get("/gigs/:id", (req, res) => {
   const sql = `
     SELECT g.gig_id, g.city, g.gig_date, b.name AS band
     FROM gig g
-    JOIN band_gig_mapping bgm ON g.gig_id = bgm.gig_id
-    JOIN band b ON b.band_id = bgm.band_id
+           JOIN band_gig_mapping bgm ON g.gig_id = bgm.gig_id
+           JOIN band b ON b.band_id = bgm.band_id
     WHERE g.gig_id = ?
   `;
 
@@ -35,9 +38,41 @@ router.get("/gigs/:id", (req, res) => {
   });
 });
 
-module.exports = router;
+/* =========================
+   REGISTER (NEW)
+========================= */
+router.post("/register", (req, res) => {
+  const { username, password } = req.body;
 
+  if (!username || !password) {
+    return res.status(400).json({ message: "Missing fields" });
+  }
 
+  const checkSql = `SELECT * FROM users WHERE username = ?`;
+
+  db.query(checkSql, [username], (err, results) => {
+    if (err) return res.status(500).json(err);
+
+    if (results.length > 0) {
+      return res.status(409).json({ message: "User already exists" });
+    }
+
+    const insertSql = `
+      INSERT INTO users (username, password)
+      VALUES (?, ?)
+    `;
+
+    db.query(insertSql, [username, password], (err) => {
+      if (err) return res.status(500).json(err);
+
+      res.json({ message: "User registered successfully" });
+    });
+  });
+});
+
+/* =========================
+   LOGIN
+========================= */
 router.post("/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -55,16 +90,18 @@ router.post("/login", (req, res) => {
 
     const user = results[0];
 
-    // Set a cookie that expires in 1 day
-    res.cookie('admin', JSON.stringify({ id: user.user_id, username: user.username }), {
-      httpOnly: false,   // false so JS can read it on the frontend
-      maxAge: 24 * 60 * 60 * 1000, // 1 day in ms
+    res.cookie('gigapp_user', JSON.stringify({
+      id: user.user_id,
+      username: user.username,
+      role: user.role
+    }), {
+      httpOnly: false,
+      maxAge: 24 * 60 * 60 * 1000,
       sameSite: 'lax'
     });
 
-    res.json({ message: "Login successful", user });
+    res.json({ message: "Login successful", user: { id: user.user_id, username: user.username, role: user.role } });
   });
 });
 
 module.exports = router;
-

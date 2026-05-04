@@ -12,6 +12,7 @@ const oddsController = require("./controllers/oddsController");
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.static('.'));
 
 app.use("/", gigController);
 app.use("/menu", menuController);
