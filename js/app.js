@@ -290,7 +290,7 @@ function renderApp() {
     content = renderLogin();
   } else if (state.route === 'register') {
     content = renderRegister();
-  } else if (state.route === 'home') {
+  } else if (state.route === 'mod') {
     content = `
       <section class="hero">
         <article class="hero-card">
