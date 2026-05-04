@@ -26,7 +26,18 @@
   <div id="app"></div>
   <noscript>Tämä template tarvitsee JavaScriptin käyttöliittymän renderöintiin.</noscript>
   <script src="js/app.js" defer></script>
+
+  <nav class="site-nav">
+    <a href="#home">${copy('Etusivu')}</a>
+    ${
+    state.user
+      ? `<span>👤 ${state.user.username}</span>
+                 ${state.user.role === 'admin' ? `<a href="#mod">${copy('Hallintasivu')}</a>` : ''}
+                 <a href="#" id="logoutBtn">${copy('Kirjaudu ulos')}</a>`
+      : `<a href="#login">${copy('Kirjaudu')}</a>
+                 <a href="#register">${copy('Rekisteröidy')}</a>`
+  }
+  </nav>
 </body>
 
 </html>
-

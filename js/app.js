@@ -282,9 +282,7 @@ function renderMatchDetail(match) {
   `;
 }
 
-/* =========================
-   MAIN RENDER (ORIGINAL)
-========================= */
+
 function renderApp() {
   if (!app) return;
 
@@ -376,9 +374,7 @@ function renderApp() {
   `;
 }
 
-/* =========================
-   LOAD DATA
-========================= */
+
 async function loadGigs() {
   try {
     const response = await fetch('http://127.0.0.1:3000/gigs');
@@ -402,9 +398,7 @@ async function loadMajorScores() {
   renderApp();
 }
 
-/* =========================
-   LOGIN
-========================= */
+
 document.addEventListener('submit', async (e) => {
   if (e.target.id !== 'loginForm') return;
 
@@ -436,9 +430,7 @@ document.addEventListener('submit', async (e) => {
   }, 1000);
 });
 
-/* =========================
-   REGISTER (NEW)
-========================= */
+
 document.addEventListener('submit', async (e) => {
   if (e.target.id !== 'registerForm') return;
 
