@@ -559,6 +559,49 @@ select:focus {
   font-size: 0.82rem;
 }
 
+.site-nav span {
+  align-self: center;
+  color: var(--text-soft);
+  font-weight: 700;
+}
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admin-stats .stat-card {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.admin-stats strong {
+  color: #ffe0b8;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.admin-create-card {
+  margin-bottom: 1rem;
+}
+
+.danger-button {
+  color: #ffd6cf;
+  border-color: #9d3b2d;
+  background: #3a1714;
+}
+
+.danger-button:hover {
+  box-shadow: 0 0 0 1px rgba(231, 88, 67, 0.45), 0 8px 22px rgba(0, 0, 0, 0.56);
+}
+
+.admin-dashboard {
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  align-items: start;
+}
+
 .checkpoint-list {
   display: grid;
   gap: 0.85rem;
@@ -580,6 +623,10 @@ select:focus {
   .site-header {
     position: static;
     align-items: stretch;
+  }
+
+  .admin-dashboard {
+    grid-template-columns: 1fr;
   }
 }
 
