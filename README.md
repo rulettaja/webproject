@@ -1,60 +1,177 @@
-# Restaurant project template
+# Kallion Kulma - käyttöohje
 
-Tämä repo on **kurssiprojektin template**, ei valmis sovellus.
+Kallion Kulma on selainpohjainen sivu korttelibaarille. Sivulla voi selata juomalistaa, tulevia keikkoja ja urheilutuloksia. Käyttäjä voi rekisteröityä, kirjautua sisään, ostaa keikkalipun ja näyttää lipun QR-koodina. Admin-käyttäjä voi hallita keikkoja.
 
-Se antaa valmiin rungon seuraaville kokonaisuuksille:
-- etusivu
-- ravintolan viikkolista JSON-datasta
-- päivän lounaan korostus
-- hinnat ja erityisruokavaliot
-- fi/en-kielenvaihdon perusrakenne
-- asiakasnäkymän placeholderit (kirjautuminen, rekisteröityminen, ostoskori)
-- admin-näkymän placeholderit (kirjautuminen, menun hallinta, tilausten hallinta)
-- HSL / avoin API -integraation paikka
-- backend-, SQL- ja testisuunnitelman rungot
+## Vaatimukset
 
-## Mitä tässä templaatissa on oikeasti toteutettu?
+- Node.js ja npm
+- MySQL-palvelin
+- Projektin riippuvuudet asennettuna komennolla `npm install`
+- Tietokanta `band_gigs`, jonka rakenne löytyy tiedostosta `db/Database_creation.txt`
+- Halutessasi urheilutuloksia varten The Odds API -avain
 
-### Valmiina
-- responsiivinen yksi-sivuinen käyttöliittymärunko `index.html` + `js/app.js`
-- mock-menu `data/menu.template.json`
-- päivän listan automaattinen korostus viikonpäivän perusteella
-- hinnat, annoskuvaukset ja ruokavaliotagit näkyvät listassa
-- dokumentoitu API-, tietokanta- ja testirunko
+## Asennus
 
-### Jätetty tarkoituksella TODO-tilaan
-- oikea asiakasautentikointi
-- oikea adminautentikointi
-- pysyvä ostoskori
-- oikea Node/Express REST API
-- SQL-tietokantayhteys
-- tilausten tallennus ja hallinta
-- avoimen API:n oikea integraatio
-- integraatio- ja E2E-testien toteutus
+1. Avaa terminaali projektikansiossa.
 
-## Projektin rakenne
-
-```text
-webproject/
-├── css/style.css
-├── data/menu.template.json
-├── database/schema.template.sql
-├── docs/api-template.md
-├── index.html
-├── js/app.js
-├── server/README.md
-├── tests/template-structure.test.js
-└── tests/test-plan.md
+```powershell
+cd C:\Users\elias\Downloads\webproject
 ```
 
-## Käynnistys
-
-Asenna riippuvuudet ja käynnistä dev-versio:
+2. Asenna riippuvuudet.
 
 ```powershell
 npm install
+```
+
+3. Luo MySQL-tietokanta ja taulut tiedoston `db/Database_creation.txt` ohjeilla.
+
+4. Tarkista tietokantayhteys tiedostosta `db/db.js`.
+
+Oletusasetukset ovat:
+
+```js
+host: "localhost"
+user: "root"
+database: "band_gigs"
+```
+
+Vaihda käyttäjä, salasana tai tietokannan nimi omalle koneellesi sopivaksi.
+
+## Käynnistys
+
+Käynnistä backend-palvelin:
+
+```powershell
+node server.js
+```
+
+Kun palvelin käynnistyy oikein, terminaalissa näkyy:
+
+```text
+Server running on http://localhost:3000
+Connected to MySQL
+```
+
+Avaa sivu selaimessa:
+
+```text
+http://localhost:3000
+```
+
+## Sivun peruskäyttö
+
+### Etusivu
+
+Etusivulla näkyvät:
+
+- Kallion Kulman pääotsikko
+- viikon juomalista
+- tulevat keikat
+- urheilutulokset, jos API-avain on käytössä
+
+Ylävalikosta pääsee etusivulle, kirjautumiseen ja rekisteröitymiseen. Kirjautuneelle käyttäjälle näkyy myös liput-näkymä.
+
+### Rekisteröityminen
+
+1. Valitse ylävalikosta `Rekisteröidy`.
+2. Syötä käyttäjätunnus ja salasana.
+3. Paina `Rekisteröidy`.
+4. Onnistuneen rekisteröinnin jälkeen sivu ohjaa kirjautumiseen.
+
+Käyttäjät tallennetaan MySQL-tietokannan `users`-tauluun.
+
+### Kirjautuminen
+
+1. Valitse ylävalikosta `Kirjaudu`.
+2. Syötä käyttäjätunnus ja salasana.
+3. Paina `Kirjaudu`.
+
+Kirjautumisen jälkeen sivu tallentaa käyttäjän selaimen evästeeseen. Uloskirjautuminen tapahtuu ylävalikon `Kirjaudu ulos` -linkistä.
+
+### Keikkojen selaaminen
+
+Keikat näkyvät etusivulla ja liput-näkymässä. Jokaisesta keikasta näytetään:
+
+- kaupunki
+- päivämäärä
+- esiintyjä tai esiintyjät
+
+Keikan lisätiedot avautuvat painikkeesta `Lisää tietoa`.
+
+### Lipun ostaminen
+
+1. Kirjaudu sisään.
+2. Avaa keikan lisätiedot.
+3. Paina `Osta lippu`.
+4. Sivusto luo lipun ja ohjaa QR-lippunäkymään.
+
+Liput tallentuvat selaimen `localStorage`-muistiin. Tämä tarkoittaa, että liput ovat selain- ja laitekohtaisia.
+
+### QR-lippu
+
+Oston jälkeen sivu näyttää QR-koodin. Jos käyttäjä on jo ostanut lipun samaan keikkaan, keikan tiedoissa näkyy painike `Näytä QR`.
+
+QR-koodi luodaan ulkoisen palvelun kautta osoitteesta:
+
+```text
+https://api.qrserver.com
+```
+
+## Admin-käyttö
+
+Admin-paneeliin pääsee käyttäjällä:
+
+```text
+käyttäjätunnus: admin
+salasana: admin
+```
+
+Admin-käyttäjällä ylävalikkoon ilmestyy `Admin`-linkki.
+
+Admin-paneelissa voi:
+
+- nähdä keikkojen määrän
+- nähdä myytyjen lippujen määrän
+- luoda uuden keikan
+- poistaa keikan
+- tarkastella selaimeen tallentuneita lipputilauksia
+
+Uuden keikan luonti tallentaa keikan MySQL-tietokantaan. Poisto poistaa keikan ja sen bändikytkennät tietokannasta.
+
+## Urheilutulokset
+
+Urheilutulokset haetaan backendin kautta reitistä:
+
+```text
+GET /api/scores
+```
+
+Jos haluat tulokset näkyviin, lisää `.env`-tiedostoon The Odds API -avain:
+
+```powershell
+ODDS_API_KEY=oma_api_avain
+```
+
+Käynnistä palvelin uudelleen muutoksen jälkeen.
+
+Jos avainta ei ole tai haku epäonnistuu, sivu näyttää virheilmoituksen urheilutulosten kohdalla. Muu sivu toimii silti.
+
+## Hyödylliset komennot
+
+Käynnistä sovellus backendin kautta:
+
+```powershell
+node server.js
+```
+
+Käynnistä webpack-kehityspalvelin:
+
+```powershell
 npm start
 ```
+
+Huomio: webpack-kehityspalvelin avaa frontendin erikseen, mutta sovellus hakee API-dataa edelleen osoitteesta `http://localhost:3000`. Pidä siis myös `node server.js` käynnissä, jos haluat kirjautumisen, keikat ja urheilutulokset toimimaan.
 
 Tee tuotantobuild:
 
@@ -62,73 +179,37 @@ Tee tuotantobuild:
 npm run build
 ```
 
-Aja templaten perusrakennetesti:
+Aja rakennetesti:
 
 ```powershell
 npm test
 ```
 
-## Suositeltu seuraava vaiheistus
+## Projektin tärkeät tiedostot
 
-1. **Erottele frontti moduuleihin**
-   - `js/components/`
-   - `js/pages/`
-   - `js/services/`
-   - `js/i18n/`
-2. **Toteuta backend-runko**
-   - Express-sovellus
-   - REST-reitit `menu`, `auth`, `orders`, `admin`
-3. **Lisää SQL**
-   - käyttäjät
-   - ruokalista
-   - tilaukset
-4. **Liitä oikea avoin API**
-   - HSL / Digitransit lähin pysäkki tai reititys
-5. **Kirjoita testit**
-   - vähintään 5 integraatiotestiä
-   - vähintään 5 end-to-end-testiä
+- `index.html` - sivun HTML-runko
+- `css/style.css` - sivun tyylit
+- `js/app.js` - käyttöliittymän logiikka
+- `server.js` - Express-palvelimen käynnistys
+- `controllers/gigController.js` - keikat, kirjautuminen ja rekisteröinti
+- `controllers/oddsController.js` - urheilutulosten haku
+- `db/db.js` - MySQL-yhteys
+- `db/Database_creation.txt` - tietokannan luontiohje
 
-## Vinkki esitykseen ja tilannekatsauksiin
+## Yleisimmät ongelmat
 
-Voitte käyttää tätä jakoa:
-- henkilö 1: etusivu + menu + responsiivisuus
-- henkilö 2: auth + asiakastili + ostoskori
-- henkilö 3: backend + admin + testit
+### Sivu aukeaa, mutta keikat eivät näy
 
-## Tiedostot, joista kannattaa aloittaa
-- `js/app.js` – käyttöliittymän template-logiikka
-- `data/menu.template.json` – esimerkkidata
-- `docs/api-template.md` – REST API -sopimusrunko
-- `database/schema.template.sql` – SQL-taulujen runko
-- `tests/test-plan.md` – kurssin testitavoitteiden pohja
+Tarkista, että `node server.js` on käynnissä ja MySQL-yhteys toimii.
 
-## The Odds API integration (major scores)
+### Palvelin ei käynnisty
 
-Backend now exposes a proxy route:
-- `GET /api/scores`
+Tarkista, että MySQL on käynnissä ja `db/db.js` sisältää oikeat tunnukset.
 
-It fetches major leagues (NFL, NBA, MLB, NHL, Premier League) from The Odds API and returns normalized score cards for the frontend.
+### Kirjautuminen ei onnistu
 
-### Setup
+Tarkista, että `users`-taulu on luotu ja että siellä on käyttäjä. Admin-käyttäjä lisätään `db/Database_creation.txt`-tiedoston lopussa.
 
-1. Copy `.env.example` to `.env`
-2. Add your API key from The Odds API:
+### Urheilutulokset eivät näy
 
-```powershell
-ODDS_API_KEY=your_real_key_here
-```
-
-> On Windows PowerShell, if you run without `.env` loading, you can also set it before starting server:
-
-```powershell
-$env:ODDS_API_KEY="your_real_key_here"
-node server.js
-```
-
-### Quick test
-
-```powershell
-curl.exe http://localhost:3000/api/scores
-```
-
-If configured correctly, you will get JSON with `{ source, scores }` and scores will appear on the home page under **Major League Scores**.
+Tarkista `.env`-tiedoston `ODDS_API_KEY`. Ilman kelvollista API-avainta urheilutulokset eivät lataudu.
