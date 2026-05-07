@@ -2,6 +2,36 @@
 
 Kallion Kulma on selainpohjainen sivu korttelibaarille. Sivulla voi selata juomalistaa, tulevia keikkoja ja urheilutuloksia. Käyttäjä voi rekisteröityä, kirjautua sisään, ostaa keikkalipun ja näyttää lipun QR-koodina. Admin-käyttäjä voi hallita keikkoja.
 
+## What the project does
+
+Kallion Kulma tarjoaa baarin verkkosivun, jossa käyttäjä voi:
+
+- katsoa viikon juomalistan
+- selata tulevia keikkoja
+- tarkastella urheilutuloksia
+- rekisteröityä ja kirjautua sisään
+- ostaa keikkalipun
+- näyttää ostetun lipun QR-koodina
+- käyttää admin-paneelia keikkojen hallintaan
+
+## Why the project is useful
+
+Projekti kokoaa baarin tärkeimmät asiakastoiminnot yhteen sivuun. Asiakas näkee juomat, tapahtumat ja liput helposti samasta paikasta. Admin-käyttäjä voi lisätä ja poistaa keikkoja ilman, että tietokantaa tarvitsee muokata käsin.
+
+Projekti on hyödyllinen myös oppimisprojektina, koska siinä yhdistyvät frontend, Node.js/Express-backend, MySQL-tietokanta, kirjautuminen, selaimen tallennus ja ulkoinen API-integraatio.
+
+## How users can get started with the project
+
+Nopein tapa aloittaa on:
+
+1. Asenna riippuvuudet komennolla `npm install`.
+2. Luo MySQL-tietokanta tiedoston `db/Database_creation.txt` ohjeilla.
+3. Tarkista tietokantatunnukset tiedostosta `db/db.js`.
+4. Käynnistä palvelin komennolla `node server.js`.
+5. Avaa selain osoitteessa `http://localhost:3000`.
+
+Tarkemmat asennus- ja käyttöohjeet löytyvät alempaa tästä README-tiedostosta.
+
 ## Vaatimukset
 
 - Node.js ja npm
@@ -57,6 +87,36 @@ Avaa sivu selaimessa:
 
 ```text
 http://localhost:3000
+```
+
+## Vercel-käyttöönotto
+
+Sovellus on muokattu niin, että Express-backend voidaan ajaa Vercelissä. Vercelissä ei voi käyttää oman koneen `localhost`-MySQL-tietokantaa, joten tarvitset verkossa olevan MySQL-tietokannan.
+
+1. Luo MySQL-tietokanta esimerkiksi Railwayn, Aivenin tai muun pilvipalvelun kautta.
+2. Aja tietokantaan tiedoston `db/Database_creation.txt` SQL-komennot.
+3. Lisää Vercelin projektin Environment Variables -asetuksiin:
+
+```text
+DB_HOST=your_database_host
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+DB_NAME=band_gigs
+DB_CONNECTION_LIMIT=5
+ODDS_API_KEY=your_odds_api_key
+```
+
+4. Deployaa projekti Verceliin GitHubin kautta tai Vercel CLI:llä.
+
+```powershell
+vercel
+vercel --prod
+```
+
+Vercel käyttää tiedostoa `vercel.json`, joka ohjaa pyynnöt Express-sovellukselle. Paikallisesti sovellus toimii edelleen komennolla:
+
+```powershell
+node server.js
 ```
 
 ## Sivun peruskäyttö
@@ -213,3 +273,18 @@ Tarkista, että `users`-taulu on luotu ja että siellä on käyttäjä. Admin-k�
 ### Urheilutulokset eivät näy
 
 Tarkista `.env`-tiedoston `ODDS_API_KEY`. Ilman kelvollista API-avainta urheilutulokset eivät lataudu.
+
+## Where users can get help with your project
+
+Apua saa tästä README-tiedostosta sekä sähköpostitse:
+
+```text
+eliaskko@metropolia.fi
+```
+
+## Who maintains and contributes to the project
+
+Projektia ylläpitävät ja siihen osallistuvat:
+
+- Roope Rajala
+- Elias Koistinen
