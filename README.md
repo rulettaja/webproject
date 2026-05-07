@@ -103,8 +103,18 @@ DB_USER=your_database_user
 DB_PASSWORD=your_database_password
 DB_NAME=band_gigs
 DB_CONNECTION_LIMIT=5
+DB_SSL=true
 ODDS_API_KEY=your_odds_api_key
 ```
+
+Voit myös käyttää yhtä yhteysosoitetta erillisten `DB_*`-arvojen sijaan:
+
+```text
+DATABASE_URL=mysql://user:password@host:3306/band_gigs
+DB_SSL=true
+```
+
+Vercelissä `DB_HOST` ei saa olla `localhost` tai `127.0.0.1`, koska ne tarkoittavat Vercelin omaa palvelinympäristöä eivätkä omaa konettasi. Käytä pilvessä olevaa MySQL-palvelua, kuten Railway, Aiven, PlanetScale tai vastaava, ja salli yhteydet Vercelistä. Jos tietokantapalvelu vaatii salatun yhteyden, pidä `DB_SSL=true`.
 
 4. Deployaa projekti Verceliin GitHubin kautta tai Vercel CLI:llä.
 
