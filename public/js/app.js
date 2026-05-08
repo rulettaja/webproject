@@ -885,5 +885,6 @@ document.addEventListener('submit', async e => {
 window.addEventListener('hashchange', renderApp);
 
 renderApp();
+
 loadGigs();
 loadMajorScores();
