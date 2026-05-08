@@ -2,7 +2,7 @@
 
 Kallion Kulma on selainpohjainen sivu korttelibaarille. Sivulla voi selata juomalistaa, tulevia keikkoja ja urheilutuloksia. Käyttäjä voi rekisteröityä, kirjautua sisään, ostaa keikkalipun ja näyttää lipun QR-koodina. Admin-käyttäjä voi hallita keikkoja.
 
-Projektia voi testata osoitteessa: https://users.metropolia.fi/~eliaskko/webproject/public/
+Projektia voi testata osoitteessa: http://10.120.32.89:3000/
 
 ## What the project does
 
