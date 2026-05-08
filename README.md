@@ -2,6 +2,8 @@
 
 Kallion Kulma on selainpohjainen sivu korttelibaarille. Sivulla voi selata juomalistaa, tulevia keikkoja ja urheilutuloksia. Käyttäjä voi rekisteröityä, kirjautua sisään, ostaa keikkalipun ja näyttää lipun QR-koodina. Admin-käyttäjä voi hallita keikkoja.
 
+Projektia voi testata osoitteessa: https://users.metropolia.fi/~eliaskko/webproject/public/
+
 ## What the project does
 
 Kallion Kulma tarjoaa baarin verkkosivun, jossa käyttäjä voi:
@@ -87,46 +89,6 @@ Avaa sivu selaimessa:
 
 ```text
 http://localhost:3000
-```
-
-## Vercel-käyttöönotto
-
-Sovellus on muokattu niin, että Express-backend voidaan ajaa Vercelissä. Vercelissä ei voi käyttää oman koneen `localhost`-MySQL-tietokantaa, joten tarvitset verkossa olevan MySQL-tietokannan.
-
-1. Luo MySQL-tietokanta esimerkiksi Railwayn, Aivenin tai muun pilvipalvelun kautta.
-2. Aja tietokantaan tiedoston `db/Database_creation.txt` SQL-komennot.
-3. Lisää Vercelin projektin Environment Variables -asetuksiin:
-
-```text
-DB_HOST=your_database_host
-DB_USER=your_database_user
-DB_PASSWORD=your_database_password
-DB_NAME=band_gigs
-DB_CONNECTION_LIMIT=5
-DB_SSL=true
-ODDS_API_KEY=your_odds_api_key
-```
-
-Voit myös käyttää yhtä yhteysosoitetta erillisten `DB_*`-arvojen sijaan:
-
-```text
-DATABASE_URL=mysql://user:password@host:3306/band_gigs
-DB_SSL=true
-```
-
-Vercelissä `DB_HOST` ei saa olla `localhost` tai `127.0.0.1`, koska ne tarkoittavat Vercelin omaa palvelinympäristöä eivätkä omaa konettasi. Käytä pilvessä olevaa MySQL-palvelua, kuten Railway, Aiven, PlanetScale tai vastaava, ja salli yhteydet Vercelistä. Jos tietokantapalvelu vaatii salatun yhteyden, pidä `DB_SSL=true`.
-
-4. Deployaa projekti Verceliin GitHubin kautta tai Vercel CLI:llä.
-
-```powershell
-vercel
-vercel --prod
-```
-
-Vercel käyttää tiedostoa `vercel.json`, joka ohjaa pyynnöt Express-sovellukselle. Paikallisesti sovellus toimii edelleen komennolla:
-
-```powershell
-node server.js
 ```
 
 ## Sivun peruskäyttö

@@ -11,8 +11,8 @@ const state = {
   tickets: JSON.parse(localStorage.getItem('tickets') || '[]')
 };
 
-const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
-const API_BASE_URL = isLocalHost ? 'http://localhost:3000' : '';
+const API_HOST = window.location.hostname || '127.0.0.1';
+const API_BASE_URL = `http://${API_HOST}:3000`;
 
 function apiUrl(path) {
   return `${API_BASE_URL}${path}`;
